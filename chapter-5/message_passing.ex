@@ -1,9 +1,7 @@
 defmodule MessagePassing do
 
   @moduledoc """
-  ## 5.2.2 Message passing
-
-  Following along [Message passing](https://livebook.manning.com/book/elixir-in-action-second-edition/chapter-5/60).
+  [Chapter 5 - Concurrency primitives > 5.2 - Working with processes > 5.2.2 Message passing](https://livebook.manning.com/book/elixir-in-action-second-edition/chapter-5/60).
 
   Sending messages takes the form of:
 

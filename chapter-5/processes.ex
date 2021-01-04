@@ -1,8 +1,6 @@
 defmodule Processes do
   @moduledoc """
-  ## 5.2 Working with Processes
-
-  Following along [chapter 5.2](https://livebook.manning.com/book/elixir-in-action-second-edition/chapter-5/29).
+  [Chapter 5 - Concurrency primitives > 5.2 - Working with processes > 5.2.1 - Creating processes](https://livebook.manning.com/book/elixir-in-action-second-edition/chapter-5/29).
 
   In the BEAM everything is a process and they run concurrently, and in
   multi-core processors they can also run in parallel.
