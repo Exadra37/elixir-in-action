@@ -1,0 +1,51 @@
+defmodule LoadTest do
+  @moduledoc """
+  [Chapter 7 - Building a concurrent system > 7.2 Managing multiple to-do lists > 7.2.3 Analyzing process dependencies](https://livebook.manning.com/book/elixir-in-action-second-edition/chapter-7/92)
+
+  Module borrowed from the book repo.
+
+  Very quick, inconclusive load test.
+
+  Start from command line with:
+
+  ```
+  elixir --erl "+P 2000000" -S mix run -e LoadTest.run
+  ```
+
+  Note: the +P 2000000 sets maximum number of processes to 2 millions
+
+  """
+
+  @total_processes 1_000_000
+  @interval_size 100_000
+
+  def run do
+    {:ok, _pid} = Todo.Cache.start_link([])
+
+    interval_count = round(@total_processes / @interval_size)
+    Enum.each(0..(interval_count - 1), &run_interval(make_interval(&1)))
+  end
+
+  defp make_interval(n) do
+    start = n * @interval_size
+    start..(start + @interval_size - 1)
+  end
+
+  defp run_interval(interval) do
+    {time, _} =
+      :timer.tc(fn ->
+        interval
+        |> Enum.each(&Todo.Cache.server_process("cache_#{&1}"))
+      end)
+
+    IO.puts("#{inspect(interval)}: average put #{time / @interval_size} μs")
+
+    {time, _} =
+      :timer.tc(fn ->
+        interval
+        |> Enum.each(&Todo.Cache.server_process("cache_#{&1}"))
+      end)
+
+    IO.puts("#{inspect(interval)}: average get #{time / @interval_size} μs\n")
+  end
+end
